@@ -17,9 +17,10 @@ const app = express();
 const server = http.createServer(app);
 
 const allowedOrigin = [
+    process.env.FRONTEND_URL,
     'http://localhost:5174',
     'http://localhost:5173',
-]
+].filter(Boolean)
 
 const io = new Server(server, {
     cors: {

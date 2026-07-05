@@ -6,8 +6,8 @@ import fs from 'fs'; // <-- NEW: For reading and deleting the temporary file
 import FormData from 'form-data'; // <-- NEW: For sending files to FastAPI
 import path from 'path';
 import mongoose from 'mongoose';
-// URL for the Python AI Microservice (Must match Step 6 setup)
-const AI_SERVICE_URL = 'http://localhost:8000';
+// URL for the Python AI Microservice (override in production)
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
 
 // Helper function to send an update via Socket.io
 const pushSocketUpdate = (io, userId, sessionId, status, message, session = null) => {

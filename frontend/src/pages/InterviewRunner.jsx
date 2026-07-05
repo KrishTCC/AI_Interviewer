@@ -28,8 +28,8 @@ const SUPPORTED_LANGUAGES = [
 ];
 
 const ROLE_LANGUAGE_MAP = {
-  "MERN Stack Developer": "javascript",
-  "MEAN Stack Developer": "typescript",
+  "MERN Stack Developer": "cpp",
+  "MEAN Stack Developer": "cpp",
   "Full Stack Python": "python",
   "Full Stack Java": "java",
   "Frontend Developer": "javascript",

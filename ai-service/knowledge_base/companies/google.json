@@ -1,0 +1,200 @@
+[
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Arrays",
+    "question": "Given a sorted array, remove duplicates in-place and return the new length. The relative order of elements should be maintained.",
+    "ideal_answer": "Use two pointers: a slow pointer (write position) and a fast pointer (scan position). When fast finds a new unique element, copy it to slow's position and increment slow. Time: O(n), Space: O(1). This is an in-place algorithm since we only modify the existing array without using extra space.",
+    "follow_up": "What if duplicates are allowed at most twice?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Hash Maps",
+    "question": "Design a data structure that supports insert, delete, and getRandom in O(1) time. Explain why a hash map alone is insufficient.",
+    "ideal_answer": "Use a combination of an array (for O(1) random access) and a hash map (for O(1) lookup by value). Insert: append to array, store index in map. Delete: swap element with last in array, update map, remove last. getRandom: generate random index into array. A hash map alone can't do getRandom in O(1) because iterating to a random position is O(n).",
+    "follow_up": "How would you handle allowing duplicate elements?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Dynamic Programming",
+    "question": "Given a string, find the longest palindromic substring. Optimize beyond O(n³) brute force.",
+    "ideal_answer": "Expand around center approach: for each character (and each gap between characters) as potential center, expand outward while characters match. Track the longest found. Time: O(n²), Space: O(1). Even better: Manacher's algorithm achieves O(n) using a clever reuse of previously computed palindrome information. The DP table approach dp[i][j] = whether s[i..j] is palindrome also works in O(n²) time and space.",
+    "follow_up": "Can you explain Manacher's algorithm and why it achieves O(n) time?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Graphs",
+    "question": "Given a 2D grid of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and formed by connecting adjacent lands horizontally or vertically.",
+    "ideal_answer": "Use BFS or DFS. Iterate through each cell; when a '1' is found, increment island count and flood-fill (mark all connected '1's as visited). DFS approach: recursively visit all 4 neighbors. BFS approach: use a queue. Both achieve O(m*n) time and space. Union-Find also works: connect adjacent '1' cells, count distinct components. Google frequently tests this with variations like number of distinct islands.",
+    "follow_up": "How would you solve this if the grid is too large to fit in memory?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Trees",
+    "question": "Serialize and deserialize a binary tree. Design an algorithm that converts a tree to a string and back.",
+    "ideal_answer": "Use pre-order traversal with null markers. Serialize: DFS, append node value or 'null' for null nodes, comma-separated. Deserialize: split string, use a queue/iterator, recursively build tree — take next value, if 'null' return null, else create node and recurse for left and right. Time: O(n) for both operations. BFS (level-order) also works. Key insight: pre-order + null markers uniquely defines a binary tree.",
+    "follow_up": "How would you handle this for an N-ary tree?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Graphs",
+    "question": "Given a list of airline tickets represented as [from, to] pairs, find an itinerary that uses all tickets exactly once, starting from JFK. If multiple valid itineraries exist, return the lexicographically smallest.",
+    "ideal_answer": "This is finding an Eulerian path. Use Hierholzer's algorithm with a priority queue for lexicographic ordering. Build an adjacency list with min-heaps. Start DFS from JFK: while current node has neighbors, pop the smallest and recurse. Append to result in reverse order (post-order). This works because backtracking in Hierholzer's guarantees all edges are used. Time: O(E log E) due to sorting. Key insight: Euler path exists because each ticket is an edge we must traverse exactly once.",
+    "follow_up": "What if we want to minimize the total flight cost instead of lexicographic order?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Dynamic Programming",
+    "question": "Given a string and a dictionary of words, determine if the string can be segmented into a space-separated sequence of dictionary words. Return all possible segmentations.",
+    "ideal_answer": "Word Break I (boolean): DP where dp[i] = true if s[0..i-1] can be segmented. For each position, check all dictionary words that could end there. Time: O(n * m * k) where n=string length, m=dict size, k=max word length. Word Break II (all segmentations): use DFS with memoization. Recursively try each dictionary word as prefix, memoize results for each suffix. Time: potentially exponential but memoization makes it practical. Google tests both variants.",
+    "follow_up": "How would you optimize this if the dictionary contains millions of words?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "System Design",
+    "question": "Design Google's web crawler. How would you crawl billions of web pages efficiently while being polite to web servers?",
+    "ideal_answer": "Architecture: URL Frontier (priority queue + politeness queue per domain), Fetcher (HTTP client pool), Content Parser (extract links, text), URL Filter (dedup with Bloom filter), Storage (distribute pages across distributed file system). Politeness: respect robots.txt, per-domain rate limiting with delay queues. Deduplication: URL-level (hash in Bloom filter) and content-level (SimHash for near-duplicates). Scale: partition by domain hash across worker machines. Priority: PageRank or freshness-based priority in URL Frontier.",
+    "follow_up": "How do you handle JavaScript-rendered pages that require browser execution?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design Google Docs real-time collaborative editing. How do multiple users edit the same document simultaneously without conflicts?",
+    "ideal_answer": "Use Operational Transformation (OT) or CRDTs (Conflict-free Replicated Data Types). OT: each edit is an operation (insert/delete at position). When concurrent ops arrive, transform them against each other to maintain consistency. Server acts as central authority for operation ordering. CRDTs: each character has a unique ID (Lamport timestamp + user ID), allowing merge without conflicts. Architecture: WebSocket connections to collaboration server, operation log in persistent storage, periodic snapshots. Google Docs uses OT with a central server.",
+    "follow_up": "What are the trade-offs between OT and CRDTs for this use case?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Concurrency",
+    "question": "Implement a thread-safe bounded blocking queue. Discuss the synchronization primitives you would use.",
+    "ideal_answer": "Use a circular buffer array with two condition variables (notFull, notEmpty) and a mutex. Put: acquire lock, while full wait on notFull, insert at tail, signal notEmpty, release lock. Take: acquire lock, while empty wait on notEmpty, remove from head, signal notFull, release lock. In Java: ReentrantLock with Conditions. In Python: threading.Condition. Key: use while loops (not if) for condition checks to handle spurious wakeups.",
+    "follow_up": "How would you implement a lock-free bounded queue using CAS operations?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Recursion",
+    "question": "Given a phone number, return all possible letter combinations that the number could represent (phone keypad mapping).",
+    "ideal_answer": "Use backtracking/recursion. Map each digit to its letters (2→abc, 3→def, etc.). For each digit, iterate through its mapped letters and recurse on the remaining digits. Build combinations character by character. Time: O(4^n) where n is number of digits (worst case 4 letters per digit). Space: O(n) for recursion depth. Alternatively, use iterative BFS with a queue.",
+    "follow_up": "How would you modify this to only return combinations that form valid English words?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Machine Learning Engineer",
+    "difficulty": "Medium",
+    "topic": "Machine Learning",
+    "question": "Explain the bias-variance tradeoff. How do you diagnose and address high bias or high variance in a model?",
+    "ideal_answer": "Bias is error from overly simplistic assumptions (underfitting). Variance is error from sensitivity to training data fluctuations (overfitting). High bias: training error is high → use more complex model, add features, reduce regularization. High variance: gap between training and validation error → add more data, increase regularization, simplify model, use dropout/ensemble methods. Diagnosis: plot learning curves (training vs validation error vs dataset size). The optimal model minimizes total error (bias² + variance + irreducible error).",
+    "follow_up": "How does ensemble learning (bagging vs boosting) address bias and variance differently?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Machine Learning Engineer",
+    "difficulty": "Hard",
+    "topic": "Deep Learning",
+    "question": "Explain the Transformer architecture. Why did it replace RNNs for sequence modeling, and how does self-attention work?",
+    "ideal_answer": "Transformers use self-attention to process all positions in parallel (vs RNN's sequential processing). Self-attention: compute Q, K, V matrices from input. Attention scores = softmax(QK^T / √d_k). Output = scores × V. Multi-head attention: run multiple attention heads with different learned projections, concatenate results. Key advantages: O(1) sequential ops (vs O(n) for RNN), captures long-range dependencies directly, highly parallelizable on GPUs. Architecture: encoder (self-attention + FFN) and decoder (masked self-attention + cross-attention + FFN) with residual connections and layer norm.",
+    "follow_up": "Explain positional encoding. Why is it necessary and what are the alternatives to sinusoidal encoding?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Algorithms",
+    "question": "Implement a trie (prefix tree) with insert, search, and startsWith methods. Discuss time and space complexity.",
+    "ideal_answer": "TrieNode has children (dict/array of 26) and an isEndOfWord flag. Insert: iterate through characters, create child nodes as needed, mark last node. Search: iterate, return false if any character missing, check isEndOfWord at end. StartsWith: same as search but don't check isEndOfWord. All operations: O(m) time where m is word length. Space: O(ALPHABET_SIZE * m * n) worst case for n words. Used in autocomplete, spell checkers, IP routing.",
+    "follow_up": "How would you implement a compressed trie (radix tree) to reduce memory usage?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design a distributed key-value store like Google's Bigtable. Cover consistency, partitioning, and failure handling.",
+    "ideal_answer": "Architecture: tablets (sorted key ranges) distributed across tablet servers. Master server manages tablet assignment and load balancing. Data model: (row_key, column_family:qualifier, timestamp) → value. Storage: LSM tree per tablet — writes to memtable, periodic flush to SSTables on GFS/Colossus. Reads: check memtable, then SSTables with Bloom filters. Partitioning: range-based on row key with automatic splitting. Replication: rely on underlying distributed file system (GFS). Consistency: single tablet server per tablet provides strong consistency for single-row operations. Compaction: merge SSTables to reclaim space and reduce read amplification.",
+    "follow_up": "How does Bigtable handle hot spots when certain row key ranges receive disproportionate traffic?",
+    "year": 2024,
+    "frequency": "low"
+  },
+  {
+    "company": "Google",
+    "role": "Frontend Developer",
+    "difficulty": "Medium",
+    "topic": "Web Performance",
+    "question": "Explain the critical rendering path and how you would optimize it for a search results page.",
+    "ideal_answer": "Critical rendering path: HTML parsing → DOM construction → CSSOM construction → Render tree → Layout → Paint. Optimization: 1) Minimize critical resources (inline critical CSS, defer non-critical). 2) Reduce critical path length (minimize round trips — HTTP/2 multiplexing). 3) Reduce critical bytes (minify, compress with Brotli/gzip). For search results: server-render above-the-fold content, lazy-load images, prefetch resources for likely clicked results, use skeleton screens during loading.",
+    "follow_up": "How does HTTP/2 server push help with the critical rendering path?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Bit Manipulation",
+    "question": "Given an array where every element appears twice except one, find the single element. Solve in O(n) time and O(1) space.",
+    "ideal_answer": "XOR all elements together. Since a XOR a = 0 and a XOR 0 = a, all pairs cancel out, leaving the unique element. Time: O(n), Space: O(1). Extension: if two elements appear once, XOR all to get x XOR y, find a differing bit, partition array by that bit, XOR each partition separately to get x and y.",
+    "follow_up": "What if every element appears three times except one? Can you still solve in O(1) space?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Algorithms",
+    "question": "Implement a median finding algorithm that works in O(n) worst-case time (Median of Medians / Introselect).",
+    "ideal_answer": "Median of Medians: 1) Divide array into groups of 5. 2) Find median of each group. 3) Recursively find median of medians. 4) Use this as pivot for partitioning. 5) Recurse on appropriate partition. This guarantees at least 30% of elements are on each side, giving T(n) = T(n/5) + T(7n/10) + O(n) = O(n). Practically, Quickselect with random pivot is preferred (O(n) expected), using Introselect as fallback.",
+    "follow_up": "Why do we specifically use groups of 5? What happens with groups of 3 or 7?",
+    "year": 2024,
+    "frequency": "low"
+  }
+]

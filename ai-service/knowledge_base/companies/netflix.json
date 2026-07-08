@@ -1,0 +1,90 @@
+[
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "System Design",
+    "question": "Design Netflix's video streaming architecture. How do you ensure smooth playback for 200+ million subscribers globally?",
+    "ideal_answer": "Architecture: Open Connect CDN (Netflix's own) with servers at ISP locations. Video pipeline: encode content into multiple bitrates/resolutions (AV1, H.264, VP9) and chunk into small segments (2-10 seconds). Adaptive Bitrate Streaming (ABR): client monitors bandwidth and switches quality mid-stream. Content stored on S3, cached on Open Connect Appliances (OCAs) at edge locations. Playback: client buffers ahead, smooth quality transitions. Regional caching: popular content pre-positioned at edge during off-peak hours. Control plane: AWS for everything except content delivery.",
+    "follow_up": "How does Netflix handle the 'thundering herd' problem when a popular show is released globally at the same time?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Microservices",
+    "question": "Explain Netflix's approach to microservice resilience. What is the circuit breaker pattern and how does Hystrix implement it?",
+    "ideal_answer": "Circuit breaker pattern: monitors calls to remote services. States: Closed (normal), Open (failing — short-circuit calls), Half-Open (test recovery). When failure rate exceeds threshold, circuit opens, and calls fail fast instead of timing out. Hystrix implementation: thread pool isolation per dependency (prevents one slow service from consuming all threads), timeout enforcement, fallback methods, real-time metrics. Netflix also uses: bulkhead pattern (isolate failures), retry with exponential backoff, chaos engineering (Chaos Monkey) to validate resilience. Modern: Resilience4j (lighter-weight replacement for Hystrix).",
+    "follow_up": "How does Netflix's Chaos Monkey work, and what types of chaos experiments do they run in production?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design Netflix's recommendation system. How do you personalize content for each of the 200M+ subscribers?",
+    "ideal_answer": "Multi-algorithm approach: 1) Collaborative filtering: user-user and item-item similarity from viewing patterns. 2) Content-based: video features (genre, cast, mood, pacing) from metadata and ML-extracted features. 3) Deep learning: neural collaborative filtering, sequence models for viewing history. Architecture: offline training pipeline (Spark + custom frameworks) produces candidate models. Online serving: real-time feature store (user context, time, device), candidate generation → ranking → re-ranking (diversity, freshness). A/B testing: every algorithm change tested via controlled experiments. Personalization extends to artwork selection (different thumbnails per user).",
+    "follow_up": "How does Netflix personalize the artwork/thumbnails shown for the same title to different users?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Backend Development",
+    "question": "Explain Netflix's API gateway architecture (Zuul). How does it handle routing, load balancing, and authentication?",
+    "ideal_answer": "Zuul is an edge service providing dynamic routing, monitoring, resiliency, and security. Request flow: inbound filters (auth, rate limiting, CORS) → routing filters (service discovery via Eureka, load balancing via Ribbon) → outbound filters (response modification, metrics). Features: canary routing (send % of traffic to new version), path-based routing to microservices, request/response transformation. Zuul 2 improvement: async non-blocking I/O (Netty-based) for better connection handling. Combined with Eureka (service registry) and Ribbon (client-side load balancer) for the complete Netflix OSS stack.",
+    "follow_up": "How does Netflix implement canary deployments through their API gateway?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Netflix",
+    "role": "Data Engineer",
+    "difficulty": "Hard",
+    "topic": "Data Architecture",
+    "question": "Design Netflix's real-time data pipeline for tracking viewing events. How do you process billions of events per day?",
+    "ideal_answer": "Architecture: client sends events to data ingestion service via Apache Kafka (handles millions of events/sec). Stream processing: Apache Flink for real-time aggregation (concurrent viewers, trending content, QoS metrics). Batch pipeline: events land in S3 (Parquet format), processed with Spark for historical analytics, loaded into data warehouse (Redshift/Iceberg). Schema evolution: Avro with schema registry. Data quality: real-time anomaly detection on event counts. Use cases: real-time dashboards, A/B test metrics, content popularity signals for caching, personalization features. Netflix's Keystone pipeline processes trillions of events daily.",
+    "follow_up": "How does Netflix handle schema evolution in their event streams without breaking consumers?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Algorithms",
+    "question": "Given a list of movies with their start and end times, find the maximum number of movies a user can watch without overlap (activity selection problem).",
+    "ideal_answer": "Greedy algorithm: sort movies by end time. Select the first movie. For each subsequent movie, if its start time >= last selected movie's end time, select it. This greedy choice is optimal because selecting the earliest-ending movie leaves maximum room for future selections. Time: O(n log n) for sort, O(n) for selection. Proof of optimality: exchange argument — replacing any non-greedy choice with the greedy one never reduces the count.",
+    "follow_up": "What if each movie has a rating and you want to maximize total rating instead of count?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Distributed Systems",
+    "question": "Explain eventual consistency. How does Netflix use it, and what are the implications for user experience?",
+    "ideal_answer": "Eventual consistency: all replicas will converge to the same value given enough time without new writes. Netflix uses Cassandra (multi-region) with tunable consistency. For viewing history: eventual consistency is acceptable — slight delay in syncing across devices is fine. For billing: strong consistency required — use synchronous replication or a separate consistent store. Implications: user might see stale data briefly (e.g., continue watching position slightly off), but availability is prioritized. Netflix handles this with: client-side optimistic updates, read-your-own-writes via sticky sessions, and conflict resolution with last-write-wins timestamps.",
+    "follow_up": "How does Netflix handle data conflicts when the same user updates their profile from two devices simultaneously?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Netflix",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Testing",
+    "question": "Explain Netflix's approach to chaos engineering. What is the Simian Army and how does it improve system reliability?",
+    "ideal_answer": "Chaos engineering: deliberately inject failures into production to find weaknesses before they cause outages. Simian Army tools: Chaos Monkey (randomly kills instances), Chaos Gorilla (simulates availability zone failure), Latency Monkey (introduces artificial delays), Conformity Monkey (finds non-conforming instances). Principles: 1) Define steady state (normal metrics). 2) Hypothesize that steady state continues during fault. 3) Introduce real-world events (server failure, network partition). 4) Observe if steady state holds. Netflix runs chaos experiments continuously in production, building confidence that the system handles real failures gracefully.",
+    "follow_up": "How do you safely run chaos experiments in production without affecting real users?",
+    "year": 2024,
+    "frequency": "medium"
+  }
+]

@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-dotenv
+openai-whisper
+pydub
+python-multipart
+groq
+ollama
+langchain
+langchain-community
+langchain-google-genai
+chromadb
+sentence-transformers
+pypdf
+python-docx

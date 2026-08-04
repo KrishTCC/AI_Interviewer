@@ -1,0 +1,156 @@
+[
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Arrays",
+    "question": "Rotate an array to the right by k steps. Achieve this in O(1) extra space.",
+    "ideal_answer": "Three-reverse approach: 1) Reverse entire array. 2) Reverse first k elements. 3) Reverse remaining n-k elements. Time: O(n), Space: O(1). Handle k > n by taking k = k % n. Example: [1,2,3,4,5] rotated by 2 → reverse all [5,4,3,2,1] → reverse first 2 [4,5,3,2,1] → reverse rest [4,5,1,2,3]. This is elegant because each element moves exactly to its final position.",
+    "follow_up": "How would you rotate a 2D matrix 90 degrees clockwise in-place?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Strings",
+    "question": "Implement a function to check if a string has all unique characters. What if you cannot use additional data structures?",
+    "ideal_answer": "With hash set: iterate characters, check if seen, add to set. O(n) time, O(1) space (bounded by charset size). Without extra structures: use a bit vector — for 26 lowercase letters, use a single integer where bit i represents character 'a'+i. Check and set bits using bitwise AND and OR. If charset is larger, sort the string O(n log n) and check adjacent characters.",
+    "follow_up": "What is the time complexity if the character set is Unicode (143,000+ characters)?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Trees",
+    "question": "Convert a sorted array into a balanced Binary Search Tree. Explain why the result is height-balanced.",
+    "ideal_answer": "Recursive approach: find the middle element → make it root → recursively build left subtree from left half → right subtree from right half. Base case: empty range returns null. The tree is balanced because we always split the range in half, ensuring left and right subtrees differ by at most 1 in height. Time: O(n), Space: O(log n) for recursion stack. This produces a tree with minimum possible height ⌈log₂(n+1)⌉.",
+    "follow_up": "How would you convert a sorted linked list to a balanced BST without converting to array first?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Dynamic Programming",
+    "question": "A robot is located at the top-left corner of an m×n grid. It can only move right or down. How many unique paths exist to reach the bottom-right corner?",
+    "ideal_answer": "DP approach: dp[i][j] = number of paths to reach (i,j). Base case: dp[0][j] = dp[i][0] = 1 (only one way along edges). Recurrence: dp[i][j] = dp[i-1][j] + dp[i][j-1]. Time: O(m*n), Space: optimizable to O(min(m,n)) using single row. Mathematical approach: it's choosing (m-1) downs from (m+n-2) total moves = C(m+n-2, m-1). Extension: add obstacles where blocked cells have dp value 0.",
+    "follow_up": "What if some cells are blocked and the robot cannot pass through them?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "System Design",
+    "question": "Design an elevator system for a building with 50 floors and 4 elevators. How would you optimize for minimum wait time?",
+    "ideal_answer": "Classes: ElevatorSystem (controller), Elevator (id, currentFloor, direction, state, queue), Request (floor, direction). Scheduling algorithm: SCAN (elevator-style) — serve requests in current direction, reverse at end. Optimization: assign requests to nearest elevator moving in same direction, or idle elevator closest to request floor. Use state machine: IDLE → MOVING_UP/DOWN → DOOR_OPEN. Handle edge cases: overweight, door obstruction, emergency stop. For 4 elevators: zone-based assignment (elevators 1-2 handle floors 1-25, 3-4 handle 26-50) during peak hours.",
+    "follow_up": "How would you optimize the system during morning rush hour when most people go from ground floor to upper floors?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Graphs",
+    "question": "Find the shortest path in a weighted graph with negative edges but no negative cycles. Explain why Dijkstra fails here.",
+    "ideal_answer": "Use Bellman-Ford algorithm: relax all edges V-1 times. For each edge (u,v,w): if dist[u] + w < dist[v], update dist[v]. V-1 iterations because shortest path has at most V-1 edges. Detect negative cycles with one more iteration — if any update occurs, a negative cycle exists. Time: O(V*E). Dijkstra fails because it assumes once a node is finalized, no shorter path exists — negative edges can violate this greedy assumption.",
+    "follow_up": "How does the SPFA (Shortest Path Faster Algorithm) improve on Bellman-Ford in practice?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design Microsoft Teams' real-time messaging system. How do you handle message delivery, presence, and scalability?",
+    "ideal_answer": "Architecture: WebSocket gateway servers for persistent connections. Message flow: client → gateway → message service → store in Cosmos DB → fan-out to recipients' gateway servers. Presence: heartbeat-based with Redis pub/sub for real-time updates across servers. Chat history: Cosmos DB with partition key = chatId, supports pagination. Group chats: fan-out on write (store message once, notify all members). Typing indicators: ephemeral events via WebSocket, no persistence. Scale: partition users across gateway servers, use Azure Service Bus for cross-server message routing. Offline delivery: push notifications via Azure Notification Hub.",
+    "follow_up": "How would you implement message reactions and thread replies at scale?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Linked Lists",
+    "question": "Clone a linked list with random pointers. Each node has a next pointer and a random pointer to any node in the list.",
+    "ideal_answer": "Three-pass approach (O(1) space): 1) Interleave: insert clone after each original node (A→A'→B→B'→...). 2) Set random pointers: clone.random = original.random.next. 3) Separate lists: restore original and extract clones. Alternative with hash map: O(n) space — first pass creates all clone nodes (map original→clone), second pass sets next and random using the map. Time: O(n) for both approaches.",
+    "follow_up": "How would you verify that the cloned list is a true deep copy?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Backend Engineer",
+    "difficulty": "Medium",
+    "topic": "Cloud Architecture",
+    "question": "Compare Azure Functions, Azure App Service, and Azure Kubernetes Service. When would you choose each?",
+    "ideal_answer": "Azure Functions: serverless, event-driven, auto-scales to zero, pay-per-execution. Best for: event processing, webhooks, lightweight APIs, scheduled tasks. App Service: PaaS, managed hosting for web apps, supports multiple languages, built-in CI/CD. Best for: traditional web applications, REST APIs with predictable traffic. AKS: managed Kubernetes, full container orchestration. Best for: complex microservice architectures, custom scaling policies, multi-container workloads. Choose based on control vs simplicity trade-off and workload characteristics.",
+    "follow_up": "How would you implement a hybrid architecture using all three for different parts of an application?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Stack and Queue",
+    "question": "Implement a queue using two stacks. Ensure amortized O(1) time for enqueue and dequeue operations.",
+    "ideal_answer": "Use two stacks: inbox and outbox. Enqueue: push to inbox — O(1). Dequeue: if outbox is empty, transfer all elements from inbox to outbox (reverses order), then pop from outbox — amortized O(1) because each element is moved at most twice (once to inbox, once to outbox). This achieves amortized O(1) for both operations despite individual dequeue operations potentially being O(n).",
+    "follow_up": "Can you implement a stack using two queues? What are the time complexities?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Algorithms",
+    "question": "Find the kth largest element in an unsorted array. Discuss multiple approaches with their trade-offs.",
+    "ideal_answer": "Approach 1: Sort and index — O(n log n). Simple but not optimal. Approach 2: Min-heap of size k — iterate array, maintain k largest in heap. O(n log k) time, O(k) space. Good when k << n. Approach 3: Quickselect — partition around random pivot, recurse on correct side. O(n) average, O(n²) worst case. Approach 4: Median of Medians for guaranteed O(n). For most practical cases, Quickselect with random pivot is preferred.",
+    "follow_up": "How would you find the kth largest element in a stream of numbers?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Frontend Developer",
+    "difficulty": "Medium",
+    "topic": "TypeScript",
+    "question": "Explain TypeScript's type system features: generics, union types, intersection types, and conditional types. Give practical examples.",
+    "ideal_answer": "Generics: parameterize types — function identity<T>(arg: T): T. Enables reusable, type-safe code. Union types: A | B — value can be either type, use type guards to narrow. Intersection types: A & B — value must satisfy both types, used for mixins. Conditional types: T extends U ? X : Y — type-level if/else. Example: Extract<T, U> extracts types from union that match U. Practical use: API response types that vary by endpoint, form state types that change based on step.",
+    "follow_up": "Explain the difference between 'type' and 'interface' in TypeScript and when to use each.",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design a distributed file synchronization system like OneDrive. How do you handle conflicts and ensure data consistency?",
+    "ideal_answer": "Architecture: client-side file watcher detects changes, computes deltas (rsync-like). Upload deltas to sync service via chunked upload. Server stores file metadata in SQL, file chunks in blob storage (Azure Blob). Version vector tracks file versions per device. Conflict resolution: last-write-wins with conflicting copies saved separately (user resolves). Sync protocol: client sends version vector, server returns delta of changes since that version. Optimize: delta sync (only changed bytes), compression, deduplication. Offline support: local journal of changes, replay on reconnect.",
+    "follow_up": "How do you handle large files (>10GB) and ensure upload resumability?",
+    "year": 2024,
+    "frequency": "low"
+  },
+  {
+    "company": "Microsoft",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Operating Systems",
+    "question": "Explain the difference between processes and threads. How does the Windows kernel manage thread scheduling?",
+    "ideal_answer": "Process: independent execution unit with own memory space (virtual address space), file handles, security context. Thread: lightweight execution unit within a process, shares process memory but has own stack and registers. Windows scheduling: priority-based preemptive scheduling with 32 priority levels (0-31). Threads in higher priority classes (Real-time > High > Normal > Idle) preempt lower ones. Within same priority: round-robin with quantum (time slice). Dynamic priority boost for I/O completion and foreground windows.",
+    "follow_up": "What are fibers in Windows and how do they differ from threads?",
+    "year": 2024,
+    "frequency": "medium"
+  }
+]

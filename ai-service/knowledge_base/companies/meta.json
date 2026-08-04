@@ -1,0 +1,123 @@
+[
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Arrays",
+    "question": "Move all zeroes in an array to the end while maintaining the relative order of non-zero elements. Do this in-place.",
+    "ideal_answer": "Two-pointer approach: slow pointer tracks the write position for non-zero elements. Iterate with fast pointer; when non-zero found, swap with slow position and increment slow. After iteration, all non-zeros are at the front in original order, zeros at the end. Time: O(n), Space: O(1). This is a partition problem variant commonly asked at Meta.",
+    "follow_up": "What if you need to minimize the number of write operations?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Graphs",
+    "question": "Given a social network graph, find all friend groups (connected components). Each person is a node, friendship is an edge.",
+    "ideal_answer": "Use Union-Find (Disjoint Set Union) for efficient grouping. Initialize each person as their own parent. For each friendship, union the two people. Count distinct parents (roots) to get number of groups. With path compression and union by rank: nearly O(α(n)) per operation (practically O(1)). Alternative: BFS/DFS from each unvisited node. Meta uses this for 'People You May Know' and community detection at scale.",
+    "follow_up": "How would you find mutual friends between two users efficiently at Facebook's scale?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Trees",
+    "question": "Given a binary tree, return the vertical order traversal. Nodes in the same column should be ordered top-to-bottom, left-to-right.",
+    "ideal_answer": "BFS with column tracking. Use a queue of (node, column). Start root at column 0. Left child: column-1, right child: column+1. Use a TreeMap/OrderedDict to group nodes by column. Within same column and row, order left to right. Time: O(n log n) due to sorting, Space: O(n). DFS also works with row tracking. Meta asks this frequently because it tests tree traversal with multi-dimensional ordering.",
+    "follow_up": "How would you handle this for an N-ary tree?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design Facebook's News Feed. How do you generate and rank a personalized feed for 3 billion users?",
+    "ideal_answer": "Two approaches: 1) Fan-out on write (push model): when user posts, write to all followers' feed caches. Good for users with few followers. 2) Fan-out on read (pull model): when user opens feed, fetch posts from all followed users and rank. Good for celebrities with millions of followers. Meta uses hybrid: push for regular users, pull for celebrities. Ranking: ML model considers engagement probability, relevance, recency, relationship strength. Architecture: post storage (MySQL + TAO), feed cache (Memcached), ranking service (ML model inference), social graph (TAO).",
+    "follow_up": "How do you handle the cold-start problem for new users with no engagement history?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Algorithms",
+    "question": "Given a list of intervals, merge all overlapping intervals. Return the merged list.",
+    "ideal_answer": "Sort intervals by start time. Initialize result with first interval. For each subsequent interval: if it overlaps with last in result (start <= last.end), merge by updating end to max(last.end, current.end). Otherwise, add as new interval. Time: O(n log n) for sort, Space: O(n) for result. Key insight: after sorting, we only need to compare with the last merged interval. Meta asks this in context of calendar scheduling.",
+    "follow_up": "How would you insert a new interval into a sorted non-overlapping list and merge if necessary?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Dynamic Programming",
+    "question": "Given a string of digits, decode it into letters (A=1, B=2, ..., Z=26). Find the total number of ways to decode the string.",
+    "ideal_answer": "DP where dp[i] = number of ways to decode s[0..i-1]. Base: dp[0] = 1 (empty string). For each position: if s[i] is 1-9, dp[i] += dp[i-1] (single digit). If s[i-1..i] is 10-26, dp[i] += dp[i-2] (two-digit). Handle '0': it can only be part of 10 or 20, not standalone. Time: O(n), Space: O(1) with rolling variables. Similar to climbing stairs but with constraints on valid decodings.",
+    "follow_up": "What if the encoding includes '*' as a wildcard that can represent 1-9?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "System Design",
+    "question": "Design a real-time chat system like Facebook Messenger. Cover message delivery, read receipts, and group chats.",
+    "ideal_answer": "Architecture: MQTT or WebSocket for persistent connections. Message flow: sender → connection gateway → message service → store (MySQL + HBase) → deliver to recipient's gateway. Offline: store in pending queue, deliver on reconnect + push notification. Read receipts: client sends receipt event, server updates message status, notifies sender via their connection. Group chat: message stored once, recipient list maintained per group, fan-out to each member's connection. Message ordering: use sequence IDs per conversation. At Meta's scale: partition by user ID, regional deployment, eventual consistency across regions.",
+    "follow_up": "How do you handle end-to-end encryption while still allowing server-side features like search?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Strings",
+    "question": "Given a string, determine if it is a valid palindrome considering only alphanumeric characters and ignoring case.",
+    "ideal_answer": "Two-pointer approach: left pointer starts at beginning, right at end. Skip non-alphanumeric characters. Compare characters case-insensitively. If mismatch found, return false. If pointers cross, return true. Time: O(n), Space: O(1). No need to create a cleaned string. Python: use isalnum() and lower(). This is Meta's warm-up question and sets the tone for the interview.",
+    "follow_up": "If you can delete at most one character, can you make it a palindrome?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Meta",
+    "role": "Frontend Developer",
+    "difficulty": "Medium",
+    "topic": "React",
+    "question": "Implement infinite scrolling for a Facebook-like feed. Discuss performance optimizations.",
+    "ideal_answer": "Use Intersection Observer API to detect when a sentinel element near the bottom enters the viewport. On intersection: fetch next page of data, append to state. Optimizations: 1) Virtualization (react-window): only render visible items + buffer. 2) Placeholder skeletons during loading. 3) Debounce scroll events. 4) Image lazy loading with loading='lazy'. 5) Windowing: unmount off-screen components to reduce DOM nodes. 6) Cursor-based pagination (not offset) for consistency with real-time data.",
+    "follow_up": "How would you handle rapid scrolling where users skip hundreds of posts?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Graphs",
+    "question": "Design an algorithm to detect fake accounts in a social network. What graph-based features would you use?",
+    "ideal_answer": "Graph-based features: 1) Low clustering coefficient (fake accounts' friends don't know each other). 2) Abnormal degree distribution (too many or too few connections). 3) Low reciprocity (one-directional friendships). 4) Community detection (fake accounts cluster in tight groups). 5) Temporal patterns (burst of connections in short time). Algorithm: combine graph features with behavioral features (login patterns, content sharing) in a supervised ML model. Use label propagation for semi-supervised detection. At Meta: use GNN (Graph Neural Networks) that learn node embeddings incorporating structural and feature information.",
+    "follow_up": "How do you handle adversarial attacks where fake accounts mimic normal user behavior?",
+    "year": 2024,
+    "frequency": "low"
+  },
+  {
+    "company": "Meta",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Concurrency",
+    "question": "Implement a thread-safe singleton pattern. Discuss different approaches and their trade-offs.",
+    "ideal_answer": "Approach 1: Double-checked locking — check null, acquire lock, check null again, create instance. Requires volatile/atomic for memory ordering. Approach 2: Static initialization — language guarantees thread-safe static init (C++ Meyers' singleton, Java static inner class). Approach 3: Enum singleton (Java-specific). Approach 4: std::call_once (C++). Trade-offs: double-checked locking is complex but lazy; static init is simple and lazy; eager init is simplest but wastes resources if never used. At Meta: prefer static init for simplicity.",
+    "follow_up": "Why is the volatile keyword necessary in the double-checked locking pattern?",
+    "year": 2024,
+    "frequency": "medium"
+  }
+]

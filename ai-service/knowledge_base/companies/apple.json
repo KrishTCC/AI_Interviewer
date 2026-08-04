@@ -1,0 +1,112 @@
+[
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Arrays",
+    "question": "Given a sorted array of integers, find the first and last position of a given target value. If not found, return [-1, -1]. Solve in O(log n) time.",
+    "ideal_answer": "Use two binary searches: one to find the leftmost occurrence (when target found, continue searching left by setting right = mid - 1), one for rightmost (continue searching right by setting left = mid + 1). Time: O(log n), Space: O(1). Single binary search finds one position; we need two to find the range. This is Apple's classic array question testing binary search mastery.",
+    "follow_up": "How would you count the total occurrences of the target without scanning the range?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Design Patterns",
+    "question": "Explain the Observer pattern. How is it used in iOS development with NotificationCenter and Combine framework?",
+    "ideal_answer": "Observer pattern: subjects maintain a list of observers and notify them of state changes. Decouples event producers from consumers. NotificationCenter: global pub/sub — post notifications by name, observers register with selectors/closures. Combine framework: declarative reactive programming — Publishers emit values over time, Subscribers receive them. Operators (map, filter, merge) transform streams. Combine provides type safety and backpressure control. Use NotificationCenter for simple system-wide events; Combine for complex async data flows with transformation chains.",
+    "follow_up": "What are the memory management pitfalls with observers, and how does Combine handle them?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "System Design",
+    "question": "Design the architecture of the Apple Music streaming service. Cover audio streaming, offline downloads, and recommendations.",
+    "ideal_answer": "Architecture: CDN (Akamai/CloudFront) for audio file distribution. Adaptive bitrate streaming (HLS): multiple quality levels, client selects based on bandwidth. Audio files stored in cloud object storage, transcoded to multiple formats/bitrates. Catalog service: REST API for search, browse, metadata. User service: playlists, library, listening history. Recommendation engine: collaborative filtering + content-based (audio features via ML). Offline: DRM-protected downloads with FairPlay. Playback: buffer management, gapless playback, crossfade. Search: Elasticsearch with fuzzy matching for song/artist names.",
+    "follow_up": "How does Apple implement DRM (FairPlay) for protecting downloaded content?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Apple",
+    "role": "iOS Developer",
+    "difficulty": "Medium",
+    "topic": "iOS Development",
+    "question": "Explain Swift's memory management model. How does ARC work, and what are strong, weak, and unowned references?",
+    "ideal_answer": "ARC (Automatic Reference Counting): compiler inserts retain/release calls at compile time. Each object has a reference count; when it reaches 0, it's deallocated. Strong reference: increments ref count (default). Weak reference: doesn't increment count, becomes nil when object is deallocated (must be optional). Unowned: like weak but not optional — assumes object outlives the reference (crashes if accessed after deallocation). Retain cycles: two objects strongly referencing each other → memory leak. Solution: use weak for delegates, closures capture lists with [weak self] or [unowned self].",
+    "follow_up": "How do you debug retain cycles in Xcode, and what tools help identify memory leaks?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "Algorithms",
+    "question": "Implement a text editor that supports undo/redo operations efficiently. What data structures would you use?",
+    "ideal_answer": "Use two stacks: undo stack and redo stack. Each operation (insert, delete, replace) pushes a reversible command onto the undo stack and clears the redo stack. Undo: pop from undo stack, reverse the operation, push onto redo stack. Redo: pop from redo stack, apply the operation, push onto undo stack. For efficient text storage: use a rope data structure (balanced binary tree of string fragments) instead of a single string — supports O(log n) insert/delete/split. Alternative: piece table (used by VS Code) — maintains original text + additions buffer with a table of pieces.",
+    "follow_up": "How does the piece table data structure work and why is it preferred for modern text editors?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Hard",
+    "topic": "System Design",
+    "question": "Design iMessage's end-to-end encryption system. How do you ensure message security while allowing multi-device sync?",
+    "ideal_answer": "Use the Signal Protocol (Double Ratchet): each device has a long-term identity key pair and ephemeral pre-keys. Key exchange: X3DH (Extended Triple Diffie-Hellman) establishes shared secret without requiring both parties online. Double Ratchet: derives new encryption keys for each message (forward secrecy). Multi-device: sender encrypts message separately for each of recipient's devices using their respective public keys. Key Transparency: public key directory with verifiable logs to prevent server-side MITM. Apple's implementation: device keys stored in secure enclave, iCloud Keychain for key backup (optional, with separate encryption).",
+    "follow_up": "How does forward secrecy protect past messages if a device's keys are compromised?",
+    "year": 2024,
+    "frequency": "low"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Easy",
+    "topic": "Data Structures",
+    "question": "Implement a basic calculator that evaluates expressions with +, -, (, ). No * or / needed.",
+    "ideal_answer": "Use a stack. Iterate through string: digit → accumulate number. '+' → add current number to result, reset. '-' → add current number to result, set sign to -1, reset. '(' → push result and sign to stack, reset. ')' → add current number to result, multiply by sign from stack, add to value from stack. Handle multi-digit numbers and whitespace. Time: O(n), Space: O(n) for nested parentheses. The stack depth equals the nesting level of parentheses.",
+    "follow_up": "How would you extend this to support * and / with correct operator precedence?",
+    "year": 2024,
+    "frequency": "high"
+  },
+  {
+    "company": "Apple",
+    "role": "iOS Developer",
+    "difficulty": "Medium",
+    "topic": "Concurrency",
+    "question": "Explain Swift Concurrency (async/await, actors, structured concurrency). How does it improve over GCD?",
+    "ideal_answer": "async/await: linear syntax for asynchronous code (no completion handler pyramids). Actor: reference type with built-in serialization — only one task accesses mutable state at a time (no data races). Structured concurrency: TaskGroup/async let creates child tasks with automatic cancellation propagation. Improvements over GCD: compile-time data race detection, no thread explosion (cooperative thread pool), better stack traces for async code, Sendable protocol ensures safe cross-boundary data transfer. GCD issues solved: retain cycles in closures, priority inversion, thread explosion from too many concurrent queues.",
+    "follow_up": "What is the Sendable protocol and how does it prevent data races across actor boundaries?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Apple",
+    "role": "Software Engineer",
+    "difficulty": "Medium",
+    "topic": "Algorithms",
+    "question": "Find the median of two sorted arrays in O(log(m+n)) time. This is a classic Apple interview problem.",
+    "ideal_answer": "Binary search on the shorter array. Partition both arrays such that left halves contain median/below-median elements. For array A with partition i and array B with partition j = (m+n+1)/2 - i: verify A[i-1] <= B[j] and B[j-1] <= A[i]. Adjust i with binary search. When valid partition found: if (m+n) is odd, max(A[i-1], B[j-1]); if even, average of max(left sides) and min(right sides). Time: O(log(min(m,n))). Key insight: partitioning correctly means all left elements ≤ all right elements.",
+    "follow_up": "Why do we binary search on the shorter array? What happens with edge cases like empty arrays?",
+    "year": 2024,
+    "frequency": "medium"
+  },
+  {
+    "company": "Apple",
+    "role": "Hardware-Software Integration",
+    "difficulty": "Hard",
+    "topic": "Systems Programming",
+    "question": "Explain how Apple Silicon's unified memory architecture affects software performance. How do GPU and CPU share memory?",
+    "ideal_answer": "Unified Memory Architecture (UMA): CPU, GPU, and Neural Engine share the same physical memory pool with a unified address space. Benefits: zero-copy data transfer between CPU and GPU (no PCIe bus bottleneck), lower latency, reduced power consumption. Software impact: Metal APIs can create shared buffers accessed by both CPU and GPU without explicit copies. Memory coherence: hardware-managed cache coherence across all processors. Programming model: use MTLBuffer with shared storage mode for CPU-GPU shared data. Performance consideration: bandwidth is shared, so heavy CPU and GPU memory access simultaneously can cause contention.",
+    "follow_up": "How does the Neural Engine integrate with CoreML for on-device machine learning inference?",
+    "year": 2024,
+    "frequency": "low"
+  }
+]

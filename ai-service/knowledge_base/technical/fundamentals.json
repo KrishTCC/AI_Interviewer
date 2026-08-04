@@ -1,0 +1,178 @@
+[
+  {
+    "topic": "Data Structures",
+    "subtopic": "Arrays and Hash Maps",
+    "concept": "Two-pointer and hash-based solutions",
+    "explanation": "Use hash maps for O(1) lookup and two pointers for linear scans when order is important.",
+    "question": "How would you detect duplicates or two-sum pairs efficiently?",
+    "ideal_answer": "Use a hash set or hash map to record seen items and look up complements in O(1) average time.",
+    "examples": "Two Sum, duplicate detection, sliding window frequency tracking",
+    "difficulty": "Easy",
+    "tags": ["arrays", "hash maps", "two pointers"]
+  },
+  {
+    "topic": "Data Structures",
+    "subtopic": "Trees",
+    "concept": "Binary tree traversal and LCA",
+    "explanation": "Tree problems often require DFS recursion, BFS queues, or post-order reasoning for structural constraints.",
+    "question": "How do you find the lowest common ancestor in a binary tree?",
+    "ideal_answer": "Return the current node if it matches either target; otherwise recurse left and right and propagate the non-null result.",
+    "examples": "LCA, tree height, level-order traversal",
+    "difficulty": "Medium",
+    "tags": ["trees", "dfs", "bfs"]
+  },
+  {
+    "topic": "Algorithms",
+    "subtopic": "Dynamic Programming",
+    "concept": "State transition and memoization",
+    "explanation": "DP works when a problem has optimal substructure and overlapping subproblems.",
+    "question": "When would you choose dynamic programming over greedy or recursion?",
+    "ideal_answer": "Use DP when subproblems repeat and local greedy choices do not guarantee global optimality.",
+    "examples": "Knapsack, LIS, edit distance",
+    "difficulty": "Medium",
+    "tags": ["dp", "memoization", "optimization"]
+  },
+  {
+    "topic": "Algorithms",
+    "subtopic": "Graphs",
+    "concept": "BFS, DFS, shortest paths",
+    "explanation": "Graphs model relationships and routes; traversal choice depends on the task.",
+    "question": "How would you detect cycles in a directed graph?",
+    "ideal_answer": "Use DFS with a recursion stack or color marking; a back edge indicates a cycle.",
+    "examples": "Topological sort, connected components, shortest path",
+    "difficulty": "Medium",
+    "tags": ["graphs", "bfs", "dfs"]
+  },
+  {
+    "topic": "DBMS",
+    "subtopic": "Transactions",
+    "concept": "ACID and isolation levels",
+    "explanation": "Transactional systems rely on atomicity, consistency, isolation, and durability.",
+    "question": "Explain ACID properties and why isolation matters.",
+    "ideal_answer": "ACID guarantees reliable transactions; isolation prevents concurrent operations from corrupting intermediate state.",
+    "examples": "Bank transfer, order placement, payment processing",
+    "difficulty": "Medium",
+    "tags": ["acid", "transactions", "isolation"]
+  },
+  {
+    "topic": "DBMS",
+    "subtopic": "Indexing",
+    "concept": "B-tree and query optimization",
+    "explanation": "Indexes reduce lookup time at the cost of write overhead and storage.",
+    "question": "When would you add an index to a table?",
+    "ideal_answer": "Add indexes on selective columns used in filters, joins, and sorts when read performance matters more than write overhead.",
+    "examples": "B-tree index, compound index, covering index",
+    "difficulty": "Medium",
+    "tags": ["database", "index", "query optimization"]
+  },
+  {
+    "topic": "Operating Systems",
+    "subtopic": "Processes and Threads",
+    "concept": "Concurrency model and scheduling",
+    "explanation": "Processes isolate memory; threads share memory within a process and require synchronization.",
+    "question": "What is the difference between a process and a thread?",
+    "ideal_answer": "A process has its own memory space; threads share the same memory and are lighter weight but need locking.",
+    "examples": "Thread pools, worker processes, context switching",
+    "difficulty": "Easy",
+    "tags": ["os", "threads", "processes"]
+  },
+  {
+    "topic": "Operating Systems",
+    "subtopic": "Deadlocks",
+    "concept": "Resource contention and circular wait",
+    "explanation": "Deadlocks happen when multiple conditions are satisfied and each process waits on another.",
+    "question": "How do you detect and prevent deadlocks?",
+    "ideal_answer": "Prevent deadlocks by breaking one of the necessary conditions or detect them via resource graphs and recovery.",
+    "examples": "Lock ordering, timeout, deadlock detector",
+    "difficulty": "Medium",
+    "tags": ["deadlock", "locking", "os"]
+  },
+  {
+    "topic": "Computer Networks",
+    "subtopic": "TCP vs UDP",
+    "concept": "Transport layer trade-offs",
+    "explanation": "TCP provides reliability and ordering; UDP favors low latency and fewer guarantees.",
+    "question": "When would you choose TCP over UDP?",
+    "ideal_answer": "Use TCP when correctness and ordering matter more than latency; use UDP for real-time traffic where speed is critical.",
+    "examples": "HTTP, file transfer, VoIP, games",
+    "difficulty": "Easy",
+    "tags": ["tcp", "udp", "transport"]
+  },
+  {
+    "topic": "Computer Networks",
+    "subtopic": "HTTP and APIs",
+    "concept": "REST semantics and caching",
+    "explanation": "HTTP methods map to resource actions and status codes help communicate request outcomes.",
+    "question": "What makes a REST API RESTful?",
+    "ideal_answer": "It uses resource-based URLs, stateless requests, standard HTTP verbs, and meaningful response codes.",
+    "examples": "GET, POST, PUT, DELETE",
+    "difficulty": "Easy",
+    "tags": ["http", "rest", "api"]
+  },
+  {
+    "topic": "Backend Development",
+    "subtopic": "Authentication",
+    "concept": "JWT, sessions, and refresh tokens",
+    "explanation": "Authentication systems balance security, usability, and token lifecycle management.",
+    "question": "Explain access tokens vs refresh tokens.",
+    "ideal_answer": "Access tokens are short-lived for authorization; refresh tokens are longer-lived and used to obtain new access tokens.",
+    "examples": "Bearer auth, secure cookies, token rotation",
+    "difficulty": "Medium",
+    "tags": ["jwt", "authentication", "security"]
+  },
+  {
+    "topic": "Backend Development",
+    "subtopic": "Caching",
+    "concept": "Redis and performance optimization",
+    "explanation": "Caching reduces repeated computation and database pressure for hot data.",
+    "question": "How does Redis improve backend performance?",
+    "ideal_answer": "Redis stores hot data in memory, enabling very low-latency reads for sessions, rate limits, and cached responses.",
+    "examples": "Cache-aside, TTL, session storage",
+    "difficulty": "Medium",
+    "tags": ["redis", "cache", "performance"]
+  },
+  {
+    "topic": "Frontend Development",
+    "subtopic": "React Rendering",
+    "concept": "State, reconciliation, and memoization",
+    "explanation": "React performance depends on minimizing unnecessary re-renders and understanding component boundaries.",
+    "question": "How do you reduce re-renders in a React app?",
+    "ideal_answer": "Use memoization strategically, split state, lift state only when needed, and avoid passing unstable props unnecessarily.",
+    "examples": "React.memo, useMemo, useCallback, virtualization",
+    "difficulty": "Medium",
+    "tags": ["react", "frontend", "performance"]
+  },
+  {
+    "topic": "System Design",
+    "subtopic": "Scalability",
+    "concept": "Caching, queues, and partitioning",
+    "explanation": "System design interviews expect trade-off reasoning around latency, throughput, and reliability.",
+    "question": "How would you scale a session-based interview platform?",
+    "ideal_answer": "Use stateless API servers, database indexes, background workers, caching, and async pipelines for heavy AI tasks.",
+    "examples": "Queue workers, CDN, horizontal scaling",
+    "difficulty": "Hard",
+    "tags": ["system design", "scalability", "distributed systems"]
+  },
+  {
+    "topic": "Software Engineering",
+    "subtopic": "Design Principles",
+    "concept": "SOLID and maintainability",
+    "explanation": "Maintainable code is modular, testable, and easy to extend.",
+    "question": "Which SOLID principle matters most in backend services and why?",
+    "ideal_answer": "Dependency inversion is often critical because it decouples core logic from infrastructure dependencies like databases and queues.",
+    "examples": "Interfaces, dependency injection, modular services",
+    "difficulty": "Medium",
+    "tags": ["solid", "design", "backend"]
+  },
+  {
+    "topic": "Software Engineering",
+    "subtopic": "Testing",
+    "concept": "Unit, integration, and contract tests",
+    "explanation": "Different test layers catch different defects and provide confidence at different costs.",
+    "question": "How do you decide what to unit test versus integration test?",
+    "ideal_answer": "Unit test pure logic and business rules; integration test service boundaries, persistence, and API contracts.",
+    "examples": "Mocking, end-to-end flows, contract validation",
+    "difficulty": "Easy",
+    "tags": ["testing", "quality", "engineering"]
+  }
+]

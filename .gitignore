@@ -1,0 +1,13 @@
+﻿venv/
+.venv/
+venv312/
+**/venv/
+**/venv312/
+**/.venv/
+node_modules/
+.env
+*.env
+package-lock.json
+*.pyd
+*.dll
+*.whl
